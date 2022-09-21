@@ -14,6 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             font-size: 100px;
             font-family: cursive;
             font-weight: 600;
@@ -25,11 +26,16 @@
             height: 100vh;
         }
 
-        .poster::after {
+        .emo::after {
+            font-size: 150px;
+            content: "";
+            animation: emoji 8s ease infinite;
+        }
+
+        .con::after {
             content: "";
             animation: content 8s ease infinite;
         }
-
 
         @keyframes gradient {
             0% {
@@ -47,24 +53,41 @@
         }
 
 
-        @keyframes content {
+        @keyframes emoji {
             0% {
-                content: "🐷 Pigesh";
+                content: "🐷";
             }
 
             50% {
-                content: "🐕 Dogesh";
+                content: "🐕";
             }
 
             100% {
-                content: "🐛 Bugesh";
+                content: "🐛";
+            }
+        }
+
+        @keyframes content {
+            0% {
+                content: "Pigesh";
+            }
+
+            50% {
+                content: "Dogesh";
+            }
+
+            100% {
+                content: "Bugesh";
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="poster"></div>
+    <div class="poster">
+        <div class="emo"></div>
+        <div class="con"></div>
+    </div>
 </body>
 
 </html>
