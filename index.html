@@ -37,7 +37,7 @@
     let map = undefined;
     let marker = undefined;
     function initMap() {
-      const uluru = { lat: -25.344, lng: 131.031 };
+      const uluru = { lat: 0, lng: 0 };
       map = new google.maps.Map(document.getElementById("map"), {
         zoom: 4,
         center: uluru,
@@ -55,9 +55,9 @@
     }, 3000)
 
     function setLocation() {
-      fetch('http://api.open-notify.org/iss-now.json').then((data) => {
+      fetch('https://api.wheretheiss.at/v1/satellites/25544').then((data) => {
         data.json().then((coor) => {
-          const pos = new google.maps.LatLng(coor.iss_position.latitude, coor.iss_position.longitude);
+          const pos = new google.maps.LatLng(coor.latitude, coor.longitude);
           map.setCenter(pos);
           marker.setPosition(pos);
         })
