@@ -1,93 +1,69 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fun App</title>
-    <style>
-        body {
-            margin: 0;
-        }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&v=weekly"
+    defer></script>
+  <title>ISS - Praveen</title>
+  <style>
+    body {
+      margin: 0
+    }
 
-        .poster {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            font-size: 100px;
-            font-family: cursive;
-            font-weight: 600;
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-            background-size: 400% 400%;
-            animation: gradient 8s ease infinite;
-            height: 100vh;
-        }
+    .header {
+      font-size: 18px;
+      text-align: center;
+      padding: 10px;
+      font-weight: 800;
 
-        .emo::after {
-            font-size: 150px;
-            content: "";
-            animation: emoji 8s ease infinite;
-        }
+    }
 
-        .con::after {
-            content: "";
-            animation: content 8s ease infinite;
-        }
-
-        @keyframes gradient {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-
-        @keyframes emoji {
-            0% {
-                content: "🐷";
-            }
-
-            50% {
-                content: "🐕";
-            }
-
-            100% {
-                content: "🐛";
-            }
-        }
-
-        @keyframes content {
-            0% {
-                content: "Pigesh";
-            }
-
-            50% {
-                content: "Dogesh";
-            }
-
-            100% {
-                content: "Bugesh";
-            }
-        }
-    </style>
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+  </style>
 </head>
 
 <body>
-    <div class="poster">
-        <div class="emo"></div>
-        <div class="con"></div>
-    </div>
+  <div class="header">ISS (Praveen)</div>
+  <div id="map"></div>
+  <script>
+
+    let map = undefined;
+    let marker = undefined;
+    function initMap() {
+      const uluru = { lat: -25.344, lng: 131.031 };
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 4,
+        center: uluru,
+      });
+      marker = new google.maps.Marker({
+        position: uluru,
+        map: map,
+      });
+      setLocation();
+    }
+
+    window.initMap = initMap;
+    setInterval(() => {
+      setLocation();
+    }, 3000)
+
+    function setLocation() {
+      fetch('http://api.open-notify.org/iss-now.json').then((data) => {
+        data.json().then((coor) => {
+          const pos = new google.maps.LatLng(coor.iss_position.latitude, coor.iss_position.longitude);
+          map.setCenter(pos);
+          marker.setPosition(pos);
+        })
+      })
+    }
+
+  </script>
 </body>
 
 </html>
